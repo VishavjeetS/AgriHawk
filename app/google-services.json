@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "685297736042",
+    "firebase_url": "https://demoproject-1f67f-default-rtdb.firebaseio.com",
     "project_id": "demoproject-1f67f",
     "storage_bucket": "demoproject-1f67f.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "685297736042-4b55p5psmugiic18mp02tjcelgl6jsvd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.agriculture",
+            "certificate_hash": "9b163ea0f0c378d7459bc59f7eea1303d20d091c"
+          }
+        },
         {
           "client_id": "685297736042-j1borvo4rnr35hkl975im1cuckc2ua9n.apps.googleusercontent.com",
           "client_type": 1,

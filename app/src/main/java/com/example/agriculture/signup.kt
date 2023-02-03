@@ -21,7 +21,7 @@ class signup : AppCompatActivity() {
         setContentView(binding.root)
         firebaseAuth=FirebaseAuth.getInstance()
         db= FirebaseFirestore.getInstance()
-binding.backbutton.setOnClickListener(){
+        binding.backbutton.setOnClickListener(){
     back()
 }
         binding.btnSignup.setOnClickListener(){

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.example.agriculture.authentication.Authentication
 import com.google.firebase.auth.FirebaseAuth
 
 class splashactivity : AppCompatActivity() {
@@ -26,7 +27,7 @@ class splashactivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         Handler().postDelayed(
             {
-                val intent= Intent(this,signin::class.java)
+                val intent= Intent(this, Authentication::class.java)
                 startActivity(intent)
                 finish()
             },

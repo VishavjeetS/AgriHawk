@@ -13,14 +13,16 @@
         android:theme="@style/Theme.Agriculture"
         tools:targetApi="31">
         <activity
-            android:name=".basicactivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:name=".utils.Farmer.DetailFarmer"
+            android:exported="false" />
         <activity
-            android:name=".basicfunctions"
+            android:name=".Dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".authentication.Authentication"
+            android:exported="true" />
+        <activity
+            android:name=".basicactivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -29,7 +31,7 @@
         <activity
             android:name=".forgotpassword"
             android:exported="false"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme2.Agriculture">
             <meta-data
                 android:name="android.app.lib_name"
@@ -38,7 +40,7 @@
         <activity
             android:name=".splashactivity"
             android:exported="true"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme2.Agriculture">
             <meta-data
                 android:name="android.app.lib_name"
