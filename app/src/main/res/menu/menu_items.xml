@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:title="Help" android:id="@+id/help_item"/>
-    <item android:title="Logout" android:id="@+id/logout_item"/>
+    <item android:title="Logout"/>
 
     <item android:id="@+id/Search"
         android:title="Search"

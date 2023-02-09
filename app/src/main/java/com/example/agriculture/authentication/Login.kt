@@ -1,17 +1,15 @@
 package com.example.agriculture.authentication
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.fragment.app.Fragment
 import com.example.agriculture.Dashboard
 import com.example.agriculture.R
 import com.example.agriculture.model.User
@@ -37,7 +35,12 @@ class Login : Fragment() {
     private lateinit var emailLayout: LinearLayout
     private lateinit var emailEd: EditText
     private var verificationId: String = ""
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, ): View? {
+    private var mContext: Context? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         mAuth = FirebaseAuth.getInstance()
         phone = view.findViewById(R.id.phoneLogin)
@@ -83,14 +86,10 @@ class Login : Fragment() {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if(task.isSuccessful){
                 Log.d("id", task.result.user!!.uid + " " + mAuth.currentUser!!.uid)
-                database = FirebaseDatabase.getInstance().reference.child("users").child(task.result.user!!.uid)
+            database = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid)
                 database.addValueEventListener(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val user = snapshot.getValue(User::class.java)!!
-//                        Log.d("isFarmer", user!!.phone)
-//                        Log.d("isFarmer", user.email)
-//                        Log.d("isFarmer", user.uid)
-//                        Log.d("isFarmer", user.name)
                         updateUI(user.getIsFarmer())
                         Log.d("isFarmer", user.getIsFarmer().toString())
                     }
@@ -111,13 +110,13 @@ class Login : Fragment() {
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    database = FirebaseDatabase.getInstance().reference.child("users").child(task.result.user!!.uid)
+                    database = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid)
                     database.addValueEventListener(object: ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
                             for(postSnapshot in snapshot.children){
                                 val user = postSnapshot.getValue(User::class.java)!!
                                 updateUI(user.getIsFarmer())
-                                Log.d("isFarmer", user.getIsFarmer().toString())
+                                Log.d("isFarmer", user.getUserUid())
                             }
                         }
 
@@ -135,7 +134,7 @@ class Login : Fragment() {
     private fun sendVerificationCode(input: String) {
         val options: PhoneAuthOptions = PhoneAuthOptions.newBuilder(mAuth)
             .setPhoneNumber(input) // Phone number to verify
-            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+            .setTimeout(60, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(requireActivity()) // Activity (for callback binding)
             .setCallbacks(mCallBack) // OnVerificationStateChangedCallbacks
             .build()
@@ -149,9 +148,6 @@ class Login : Fragment() {
         override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
             val code = phoneAuthCredential.smsCode;
             otpIp.setText(code.toString())
-            if (code != null) {
-                verifyCode(code);
-            }
         }
 
         override fun onVerificationFailed(error: FirebaseException) {
@@ -161,14 +157,22 @@ class Login : Fragment() {
     }
 
     private fun updateUI(isFarmer: Boolean) {
-        val intent = Intent(requireContext(), Dashboard::class.java)
-        intent.putExtra("isFarmer", isFarmer)
-        startActivity(intent)
-        requireActivity().finish()
+        if(isAdded)
+        {
+            val intent = Intent(mContext, Dashboard::class.java)
+            intent.putExtra("isFarmer", isFarmer)
+            startActivity(intent)
+            requireActivity().finish()
+        }
     }
 
     private fun verifyCode(code: String) {
         val credential = PhoneAuthProvider.getCredential(verificationId, code)
         signInWithCredential(credential)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = if (context is Activity) context else null
     }
 }

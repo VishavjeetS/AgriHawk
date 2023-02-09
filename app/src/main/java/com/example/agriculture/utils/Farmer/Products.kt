@@ -1,4 +1,4 @@
-package com.example.agriculture.utils
+package com.example.agriculture.utils.Farmer
 
 import android.app.Activity
 import android.content.Intent
@@ -25,7 +25,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 
 
-class Products : Fragment() {
+class Products : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var product_name: EditText
     private lateinit var product_desc: EditText
     private lateinit var get_image: Button
@@ -41,7 +41,11 @@ class Products : Fragment() {
     private lateinit var reduce: FloatingActionButton
     private lateinit var add: FloatingActionButton
     private lateinit var quantity: TextView
+    private lateinit var spin: Spinner
     private lateinit var startForProfileImageResult: ActivityResultLauncher<Intent>
+    private var total_qty = 0
+    private var num = 0
+    private val qty = arrayListOf<String>("10 Kg", "20 Kg", "50 Kg")
 
     companion object{
         const val RESULT_OK = 1101
@@ -88,8 +92,15 @@ class Products : Fragment() {
         reduce = view.findViewById(R.id.reduce)
         add = view.findViewById(R.id.add)
         quantity = view.findViewById(R.id.quantity)
+        spin = view.findViewById(R.id.spinner1)
         productList = ArrayList()
         mAuth = FirebaseAuth.getInstance()
+
+        spin.onItemSelectedListener = this;
+
+        val aa = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, qty)
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spin.adapter = aa
 
         var count = 0
 
@@ -147,10 +158,12 @@ class Products : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun addToDatabase(pname: String, pdesc: String) {
-        var image_path = " "
+        var image_path = ""
         val storageRef = FirebaseStorage.getInstance().reference;
         val uploadImageRef = storageRef.child("images/"+fileUri.lastPathSegment);
         val uploadTask = uploadImageRef.putFile(fileUri);
+        Log.d("imagePath", image_path)
+        total_qty = num * quantity.text.toString().toInt()
 
         uploadTask.addOnSuccessListener { snapshot ->
             snapshot!!.storage.downloadUrl
@@ -160,28 +173,17 @@ class Products : Fragment() {
                         Log.d("done", "done")
                         Log.d("imagePath", image_path)
                         database = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid).child("products").child(pname)
-                        if(quantity.text.toString().toInt() < 1){
-                            Toast.makeText(requireContext(), "Quantity cannot be less than 1", Toast.LENGTH_SHORT).show()
-                        }
-                        else if(product_name.text.toString().isEmpty()){
-                            Toast.makeText(requireContext(), "Please write product name", Toast.LENGTH_SHORT).show()
-                        }
-                        else if(image_path.isEmpty()){
-                            Toast.makeText(requireContext(), "Please write product image", Toast.LENGTH_SHORT).show()
-                        }
-                        else{
-                            val product = Product(pname, pdesc, image_path, quantity.text.toString().toInt())
-                            database.setValue(product).addOnSuccessListener {
-                                Toast.makeText(requireActivity(), "Product Added", Toast.LENGTH_SHORT).show()
-                                product_name.setText("")
-                                product_desc.setText("")
-                                image_upload.setImageURI(Uri.parse(""))
-                                progressBar.resetPivot()
-                                quantity.text = "0"
+                        val product = Product(pname, pdesc, image_path, "$total_qty Kg", mAuth.currentUser!!.uid)
+                        database.setValue(product).addOnSuccessListener {
+                            Toast.makeText(requireActivity(), "Product Added", Toast.LENGTH_SHORT).show()
+                            product_name.setText("")
+                            product_desc.setText("")
+                            image_upload.setImageURI(Uri.parse(""))
+                            progressBar.resetPivot()
+                            quantity.text = "0"
 
-                            }.addOnFailureListener {
-                                Toast.makeText(requireActivity(), "Error - " + it.message.toString(), Toast.LENGTH_SHORT).show()
-                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(requireActivity(), "Error - " + it.message.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
                 })
@@ -193,34 +195,31 @@ class Products : Fragment() {
             ).show();
         }
             .addOnProgressListener { snapshot ->
-            progressBar.max = 100
-            val progress: Double = 100.0 * snapshot.bytesTransferred / snapshot.totalByteCount
-            progressBar.progress = progress.toInt()
-//            val progressString = progress.toInt().toString() + "% done"
-//            image_path = progressString
-//            if(progressBar.progress == 100){
-//                Log.d("done", "done")
-////               helperFunction(pname, pdesc, image_path)
-//            }
+                if(quantity.text.toString().toInt() < 1){
+                    Toast.makeText(requireContext(), "Quantity cannot be less than 1", Toast.LENGTH_SHORT).show()
+                }
+                else if(product_name.text.toString().isEmpty()){
+                    Toast.makeText(requireContext(), "Please write product name", Toast.LENGTH_SHORT).show()
+                }
+//                else if(image_path.isEmpty()){
+//                    Toast.makeText(requireContext(), "Please write product image", Toast.LENGTH_SHORT).show()
+//                }
+                else{
+                    progressBar.max = 100
+                    val progress: Double = 100.0 * snapshot.bytesTransferred / snapshot.totalByteCount
+                    progressBar.progress = progress.toInt()
+                }
         }
     }
 
-    private fun helperFunction(pname:String, pdesc:String, image_path: String) {
-//        var currentUser: User? = null
-//        val userDatabase = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid)
-//        userDatabase.addValueEventListener(object: ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                val user = snapshot.getValue(User::class.java)
-//                if(user!!.getIsFarmer()){
-//                    Log.d("user", user.uid)
-//                    currentUser = user
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        val currentItem = qty[p2]
+        Log.d("current", currentItem)
+        num = currentItem.substring(0, 2).toInt()
+        Log.d("current", num.toString())
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 }

@@ -10,7 +10,6 @@ class AuthenticationPagerAdapter(fragmentActivity: FragmentActivity): FragmentSt
     override fun getItemCount(): Int {
         return 2
     }
-
     override fun createFragment(position: Int): Fragment {
         return when(position){
             0 -> Login()
@@ -18,5 +17,4 @@ class AuthenticationPagerAdapter(fragmentActivity: FragmentActivity): FragmentSt
             else -> Login()
         }
     }
-
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".utils.Profile">
+    tools:context=".utils.Farmer.Profile">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         app:cardElevation="3dp"
-        app:cardBackgroundColor="@color/material_dynamic_primary95">
+        app:cardBackgroundColor="#E0F3FF">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -47,24 +47,23 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cd1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/cd0"
         app:cardCornerRadius="20dp"
-        android:backgroundTint="@color/material_dynamic_primary95"
+        android:backgroundTint="#E0F3FF"
         android:layout_margin="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_image"
                     android:layout_width="120dp"
                     android:layout_height="140dp"
-                    android:layout_margin="30dp"
                     android:layout_gravity="center"
                     app:civ_border_width="1dp"
                     android:src="@drawable/ic_launcher_background"/>
@@ -74,9 +73,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/camera"
-                    android:layout_marginTop="-66dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="-30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="50dp"
                     app:tint="#4169e1" />
             </LinearLayout>
 
@@ -89,63 +88,100 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:weightSum="3"
                     android:padding="10dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name: "
-                        android:textStyle="bold"
-                        android:textColor="#4169e1"
-                        android:textSize="20sp"/>
                     <TextView
                         android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Name"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Phone: "
-                        android:textColor="#4169e1"
-                        android:textStyle="bold"
-                        android:textSize="20sp"/>
+
                     <TextView
                         android:id="@+id/user_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:layout_weight="1"
+                        android:text="Phone"
+                        android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Account: "
-                        android:textStyle="bold"
-                        android:textColor="#4169e1"
-                        android:textSize="20sp"/>
+
                     <TextView
                         android:id="@+id/user_account"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="account"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
                 </LinearLayout>
-
+                <LinearLayout
+                    android:id="@+id/misc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        android:layout_weight="2">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/requests"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="25dp"
+                            android:elevation="6dp"
+                            android:layout_weight="1"
+                            android:layout_margin="20dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:padding="15dp">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Requests"
+                                    android:gravity="center"
+                                    android:layout_marginBottom="10dp"
+                                    android:textSize="20sp"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="20"
+                                    android:gravity="center"
+                                    android:textSize="20sp"/>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="25dp"
+                            android:elevation="6dp"
+                            android:layout_weight="1"
+                            android:layout_margin="20dp">
+                            <Button
+                                android:id="@+id/logout_item"
+                                android:layout_width="match_parent"
+                                android:layout_height="75dp"
+                                android:background="@drawable/custombutton"
+                                android:text="Logout"
+                                android:textColor="@color/white"
+                                android:textSize="27sp"
+                                android:textAllCaps="false"/>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -157,14 +193,16 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:padding="5dp"
+        android:visibility="gone"
         android:layout_marginBottom="5dp"
-        android:backgroundTint="@color/material_dynamic_primary95"
+        android:backgroundTint="#E0F3FF"
         app:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:visibility="gone"
             android:gravity="center">
             <TextView
                 android:layout_width="match_parent"
