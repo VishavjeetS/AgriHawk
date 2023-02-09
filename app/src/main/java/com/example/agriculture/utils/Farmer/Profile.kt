@@ -1,4 +1,4 @@
-package com.example.agriculture.utils
+package com.example.agriculture.utils.Farmer
 
 import android.app.Activity
 import android.content.Intent
@@ -12,12 +12,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.cardview.widget.CardView
 import com.example.agriculture.R
+import com.example.agriculture.Requests
+import com.example.agriculture.authentication.Authentication
 import com.example.agriculture.model.User
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.tasks.OnCompleteListener
@@ -45,6 +49,9 @@ class Profile : Fragment() {
     private lateinit var email_update: EditText
     private lateinit var image_path: String
     private lateinit var upload: Button
+    private lateinit var requests: CardView
+    private lateinit var misc: LinearLayout
+    private lateinit var logout: Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,7 +91,14 @@ class Profile : Fragment() {
         email_update = view.findViewById(R.id.email_update)
         user_account = view.findViewById(R.id.user_account)
         upload = view.findViewById(R.id.profile_update)
+        requests = view.findViewById(R.id.requests)
+        misc = view.findViewById(R.id.misc)
+        logout = view.findViewById(R.id.logout_item)
         mAuth = FirebaseAuth.getInstance()
+
+        requests.setOnClickListener {
+            makeCurrentScreen(Requests())
+        }
 
         upload.setOnClickListener {
             addToDatabase()
@@ -98,24 +112,42 @@ class Profile : Fragment() {
         database.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)!!
-                Log.d("user", user.name)
-                user_name.text = user.name
-                user_phone.text = user.phone
-                user_email.text = "(${user.email})"
+                Log.d("user", user.getUserName())
+                user_name.text = user.getUserName()
+                user_phone.text = user.getUserPhone()
+                user_email.text = "(${user.getUserEmail()})"
                 name_update.setText(user.getUserName())
                 email_update.setText(user.getUserEmail())
                 phone_update.setText(user.getUserPhone())
                 if(user.getIsFarmer()) user_account.text = "Farmer"
                 else user_account.text = "User"
-                Picasso.get().load(user.getUserImage()).into(user_image)
+                if(user.getUserImage().isEmpty()){
+                    user_image.setImageResource(R.drawable.profile)
+                }
+                else Picasso.get().load(user.getUserImage()).into(user_image)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
         })
+        logout.setOnClickListener{
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(requireContext(), Authentication::class.java)
+            Toast.makeText(requireContext(),"Log out", Toast.LENGTH_SHORT).show()
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            requireActivity().finish()
+        }
         return view
+    }
+
+    private fun makeCurrentScreen(fragment: Fragment){
+        requireFragmentManager().beginTransaction().apply {
+            replace(R.id.wrapperFrame, fragment)
+            commit()
+        }
     }
     private fun addToDatabase() {
         val name = name_update.text

@@ -3,28 +3,54 @@ package com.example.agriculture
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.agriculture.authentication.Authentication
-import com.example.agriculture.utils.Home
-import com.example.agriculture.utils.Products
-import com.example.agriculture.utils.Profile
+import com.example.agriculture.model.User
+import com.example.agriculture.utils.Farmer.Home
+import com.example.agriculture.utils.Farmer.Products
+import com.example.agriculture.utils.Farmer.Profile
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class Dashboard : AppCompatActivity() {
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var navBar: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        supportActionBar?.hide()
         navBar = findViewById(R.id.bottom_navBar)
+        mAuth = FirebaseAuth.getInstance()
 
         val home = Home()
         val products = Products()
         val profile = Profile()
+
         makeCurrentScreen(home)
+
+        val database = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid)
+        database.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("id", mAuth.currentUser!!.uid)
+                val user = snapshot.getValue(User::class.java)!!
+                if(!user.getIsFarmer()){
+                    navBar.menu.findItem(R.id.products).isVisible = false
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
 
         navBar.setOnNavigationItemSelectedListener {
             when (it.itemId){

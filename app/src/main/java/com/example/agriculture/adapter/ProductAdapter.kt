@@ -31,12 +31,15 @@ class ProductAdapter(private val productList: ArrayList<Product>): RecyclerView.
 
     class ProductViewHolder(itemView: View, private var listener: onItemClickListener): ViewHolder(itemView){
         fun onBind(product: Product){
-            val database = FirebaseDatabase.getInstance().reference.child("users").child(FirebaseAuth.getInstance().currentUser!!.uid)
+            val database = FirebaseDatabase.getInstance().reference.child("users")
             database.addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue(User::class.java)!!
-                    if(user.getIsFarmer())
-                        itemView.findViewById<TextView>(R.id.farmer_name).text = user.getUserName()
+                    for(postSnapshot in snapshot.children){
+                        val user = postSnapshot.getValue(User::class.java)!!
+                        Log.d("name", user.getUserName())
+                        if(user.getUserUid() == product.product_uid)
+                            if(user.getIsFarmer()) itemView.findViewById<TextView>(R.id.farmer_name).text = user.getUserName()
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -45,10 +48,7 @@ class ProductAdapter(private val productList: ArrayList<Product>): RecyclerView.
 
             })
             itemView.findViewById<TextView>(R.id.product_name).text = product.product_name
-            if(product.product_desc.length > 20){
-                itemView.findViewById<TextView>(R.id.product_desc).text = product.product_desc.substring(0, 19) + "..."
-            }
-            else itemView.findViewById<TextView>(R.id.product_desc).text = product.product_desc
+            itemView.findViewById<TextView>(R.id.product_qty).text = product.product_qty.toString()
             Picasso.get().load(product.product_img).into(itemView.findViewById<ImageView>(R.id.product_image));
             itemView.setOnClickListener {
                 listener.onItemClick(adapterPosition)

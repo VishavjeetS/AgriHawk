@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".utils.Home">
+    tools:context=".utils.Farmer.Home">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.cardview.widget.CardView
@@ -36,13 +36,51 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         app:cardCornerRadius="20dp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            tools:listitem="@layout/dashboard_layout"/>
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/searchLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:elevation="10dp"
+                android:padding="5dp"
+                android:visibility="gone"
+                android:weightSum="2">
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="2"/>
+                <ImageView
+                    android:id="@+id/filter"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/filter"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                tools:listitem="@layout/dashboard_layout"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                tools:listitem="@layout/dashboard_layout"/>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

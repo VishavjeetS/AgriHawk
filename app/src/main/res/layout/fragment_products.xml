@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".utils.Products">
+    tools:context=".utils.Farmer.Products">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.cardview.widget.CardView
@@ -122,28 +122,50 @@
                 android:gravity="center"
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/reduce"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/remove"
-                    android:layout_margin="2dp"
-                    android:backgroundTint="@android:color/background_light"/>
-                <TextView
-                    android:id="@+id/quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="0"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:textSize="25sp"/>
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add"
+                    android:orientation="vertical">
+                    <Spinner
+                        android:id="@+id/spinner1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:spinnerMode="dropdown"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add"
-                    android:layout_margin="2dp"
-                    android:backgroundTint="@android:color/background_light"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/add"
+                        android:rotation="45"
+                        android:layout_marginStart="10dp"/>
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/reduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/remove"
+                        android:layout_margin="2dp"
+                        android:backgroundTint="@android:color/background_light"/>
+                    <TextView
+                        android:id="@+id/quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="0"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:textSize="25sp"/>
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/add"
+                        android:layout_margin="2dp"
+                        android:backgroundTint="@android:color/background_light"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
