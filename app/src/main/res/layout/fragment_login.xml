@@ -10,17 +10,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/numberLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="116dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:id="@+id/numberLayout"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/phoneLogin"
@@ -38,49 +38,13 @@
                 android:textColor="#4169e1"
                 android:textColorHint="#4169e1"
                 tools:ignore="DuplicateClickableBoundsCheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:id="@+id/emailLayout"
-            android:visibility="gone"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/emailLogin"
-                android:layout_width="350dp"
-                android:layout_height="55dp"
-                android:background="@drawable/customedittext"
-                android:drawablePadding="10dp"
-                android:elevation="3dp"
-                android:ems="10"
-                android:hint="email"
-                android:drawableStart="@drawable/usernamepng"
-                android:inputType="textEmailAddress"
-                android:maxEms="10"
-                android:paddingStart="10dp"
-                android:textColor="#4169e1"
-                android:textColorHint="#4169e1"
-                tools:ignore="DuplicateClickableBoundsCheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:id="@+id/enterOtpLayout"
-            android:visibility="gone"
-            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/enterOtp"
-                android:layout_width="350dp"
+                android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:background="@drawable/customedittext"
+                android:layout_marginTop="20dp"
                 android:drawablePadding="10dp"
                 android:elevation="3dp"
                 android:ems="10"
@@ -94,13 +58,31 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/passwordLayout"
+            android:id="@+id/emailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:visibility="gone">
+
+            <EditText
+                android:id="@+id/emailLogin"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
+                android:background="@drawable/customedittext"
+                android:drawableStart="@drawable/usernamepng"
+                android:drawablePadding="10dp"
+                android:elevation="3dp"
+                android:ems="10"
+                android:hint="email"
+                android:layout_marginBottom="20dp"
+                android:inputType="textEmailAddress"
+                android:maxEms="10"
+                android:paddingStart="10dp"
+                android:textColor="#4169e1"
+                android:textColorHint="#4169e1"
+                tools:ignore="DuplicateClickableBoundsCheck" />
 
             <EditText
                 android:id="@+id/password"
@@ -118,6 +100,18 @@
                 android:textColor="#4169e1"
                 android:textColorHint="#4169e1"
                 tools:ignore="DuplicateClickableBoundsCheck" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/enterOtpLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
         </LinearLayout>
 
         <TextView

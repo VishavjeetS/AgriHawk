@@ -47,6 +47,7 @@ class ProductAdapter(private val productList: ArrayList<Product>): RecyclerView.
                 }
 
             })
+            itemView.findViewById<TextView>(R.id.product_price).text = "Rs ${product.product_price}/Kg"
             itemView.findViewById<TextView>(R.id.product_name).text = product.product_name
             itemView.findViewById<TextView>(R.id.product_qty).text = product.product_qty.toString()
             Picasso.get().load(product.product_img).into(itemView.findViewById<ImageView>(R.id.product_image));

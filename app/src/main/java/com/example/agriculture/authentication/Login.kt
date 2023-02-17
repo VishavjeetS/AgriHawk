@@ -30,7 +30,6 @@ class Login : Fragment() {
     private lateinit var otpLayout: LinearLayout
     private lateinit var otpIp: EditText
     private lateinit var option: TextView
-    private lateinit var passwordLayout: LinearLayout
     private lateinit var passwordEd: EditText
     private lateinit var emailLayout: LinearLayout
     private lateinit var emailEd: EditText
@@ -49,32 +48,41 @@ class Login : Fragment() {
         otpLayout = view.findViewById(R.id.enterOtpLayout)
         otpIp = view.findViewById(R.id.enterOtp)
         option = view.findViewById(R.id.email_pass)
-        passwordLayout = view.findViewById(R.id.passwordLayout)
         emailLayout = view.findViewById(R.id.emailLayout)
         emailEd = view.findViewById(R.id.emailLogin)
         passwordEd = view.findViewById(R.id.password)
 
         option.setOnClickListener {
-            emailLayout.visibility = View.VISIBLE
-            passwordLayout.visibility = View.VISIBLE
-            getOtp.setText("Login")
+            if(option.text != "Login with Otp"){
+                numberLayout.visibility = View.GONE
+                emailLayout.visibility = View.VISIBLE
+                getOtp.text = "Login"
+                option.text = "Login with Otp"
+            }
+            else{
+                numberLayout.visibility = View.VISIBLE
+                emailLayout.visibility = View.GONE
+                getOtp.text = "Get OTP"
+                option.text = "Or login with password"
+            }
         }
 
         getOtp.setOnClickListener {
-            if(getOtp.text=="Verify OTP"){
-                verifyCode(otpIp.text.toString())
-            }
-            else if(getOtp.text == "Login"){
-                loginUser()
-            }
-            else{
-                val input = "+91" + phone.text.toString()
-                Log.d("num", input)
-                sendVerificationCode(input)
-                numberLayout.visibility = View.GONE
-                otpLayout.visibility    = View.VISIBLE
-                getOtp.text              = "Verify OTP"
-                otpIp.hint               = "Enter Otp"
+            when (getOtp.text) {
+                "Verify OTP" -> {
+                    verifyCode(otpIp.text.toString())
+                }
+                "Login" -> {
+                    loginUser()
+                }
+                else -> {
+                    val input = "+91" + phone.text.toString()
+                    Log.d("num", input)
+                    sendVerificationCode(input)
+                    numberLayout.visibility = View.VISIBLE
+                    getOtp.text              = "Verify OTP"
+                    otpIp.hint               = "Enter Otp"
+                }
             }
         }
         return view
@@ -86,19 +94,7 @@ class Login : Fragment() {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if(task.isSuccessful){
                 Log.d("id", task.result.user!!.uid + " " + mAuth.currentUser!!.uid)
-            database = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid)
-                database.addValueEventListener(object: ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val user = snapshot.getValue(User::class.java)!!
-                        updateUI(user.getIsFarmer())
-                        Log.d("isFarmer", user.getIsFarmer().toString())
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.d("error", error.message.toString())
-                    }
-
-                })
+                updateUI()
             }
             else {
                 Toast.makeText(requireContext(), task.exception!!.message, Toast.LENGTH_LONG).show()
@@ -110,21 +106,7 @@ class Login : Fragment() {
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    database = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid)
-                    database.addValueEventListener(object: ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            for(postSnapshot in snapshot.children){
-                                val user = postSnapshot.getValue(User::class.java)!!
-                                updateUI(user.getIsFarmer())
-                                Log.d("isFarmer", user.getUserUid())
-                            }
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-                            Log.d("error", error.message.toString())
-                        }
-
-                    })
+                    updateUI()
                 } else {
                     Toast.makeText(requireContext(), task.exception!!.message, Toast.LENGTH_LONG).show()
                 }
@@ -156,11 +138,10 @@ class Login : Fragment() {
 
     }
 
-    private fun updateUI(isFarmer: Boolean) {
+    private fun updateUI() {
         if(isAdded)
         {
             val intent = Intent(mContext, Dashboard::class.java)
-            intent.putExtra("isFarmer", isFarmer)
             startActivity(intent)
             requireActivity().finish()
         }

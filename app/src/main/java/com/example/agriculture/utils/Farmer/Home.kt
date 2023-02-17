@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Home : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -34,6 +36,9 @@ class Home : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var filter: ImageView
     private lateinit var recyclerViewUser: RecyclerView
+    private lateinit var searchList: ArrayList<Product>
+    private lateinit var recyclerViewSearch: RecyclerView
+    private lateinit var searchAdapter: ProductAdapter
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -45,16 +50,22 @@ class Home : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerViewUser = view.findViewById(R.id.rv_user)
+        recyclerViewSearch = view.findViewById(R.id.rv_user_search)
         searchLayout = view.findViewById(R.id.searchLayout)
         searchView = view.findViewById(R.id.searchView)
         filter = view.findViewById(R.id.filter)
         productList = ArrayList()
+        searchList = ArrayList()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewUser.layoutManager = LinearLayoutManager(requireContext())
+        recyclerViewSearch.layoutManager = LinearLayoutManager(requireContext())
         adapter = ProductAdapter(productList)
+        searchAdapter = ProductAdapter(searchList)
         recyclerView.setHasFixedSize(true)
         recyclerViewUser.setHasFixedSize(true)
+        recyclerViewSearch.setHasFixedSize(true)
         mAuth = FirebaseAuth.getInstance()
+
         FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid).addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)!!
@@ -78,10 +89,11 @@ class Home : Fragment() {
                                                     override fun onItemClick(position: Int) {
                                                         val intent = Intent(requireContext(), Detail::class.java)
                                                         intent.putExtra("name", productList[position].product_name)
-                                                        intent.putExtra("desc", productList[position].product_desc)
+                                                        intent.putExtra("price", productList[position].product_price)
                                                         intent.putExtra("image", productList[position].product_img)
                                                         intent.putExtra("qty", productList[position].product_qty)
                                                         intent.putExtra("uid", productList[position].product_uid)
+                                                        intent.putExtra("loc", productList[position].product_loc)
                                                         startActivity(intent)
                                                     }
 
@@ -116,10 +128,11 @@ class Home : Fragment() {
                                     override fun onItemClick(position: Int) {
                                         val intent = Intent(requireContext(), Detail::class.java)
                                         intent.putExtra("name", productList[position].product_name)
-                                        intent.putExtra("desc", productList[position].product_desc)
+                                        intent.putExtra("price", productList[position].product_price)
                                         intent.putExtra("image", productList[position].product_img)
                                         intent.putExtra("qty", productList[position].product_qty)
                                         intent.putExtra("uid", productList[position].product_uid)
+                                        intent.putExtra("loc", productList[position].product_loc)
                                         startActivity(intent)
                                     }
 
@@ -140,6 +153,81 @@ class Home : Fragment() {
             }
 
         })
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query != null && query.isNotEmpty()){
+                    Log.d("in", query)
+                    searchProduct(query)
+                }
+                else{
+                    Log.d("out", query!!)
+                    recyclerViewSearch.visibility = View.GONE
+                    recyclerViewUser.visibility = View.VISIBLE
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText != null && newText.isNotEmpty()){
+                    Log.d("in", newText)
+                    searchProduct(newText)
+                }
+                else{
+                    Log.d("out", newText!!)
+                    recyclerViewSearch.visibility = View.GONE
+                    recyclerViewUser.visibility = View.VISIBLE
+                }
+                return false
+            }
+
+        })
         return view
+    }
+    fun searchProduct(query: String){
+        FirebaseDatabase.getInstance().reference.child("users").addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                searchList.clear()
+                for(postSnapshot in snapshot.children){
+                    val users = postSnapshot.getValue(User::class.java)!!
+                    if(users.getIsFarmer()){
+                        FirebaseDatabase.getInstance().reference.child("users").child(users.getUserUid()).child("products").addValueEventListener(object: ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for(productSnapshot in snapshot.children){
+                                    val product = productSnapshot.getValue(Product::class.java)!!
+                                    if(query.equals(product.product_name, ignoreCase = true) || query.equals(users.getUserName(), ignoreCase = true)) {
+                                        recyclerViewSearch.visibility = View.VISIBLE
+                                        recyclerViewUser.visibility = View.GONE
+                                        Log.d("found query", product.product_name)
+                                        searchList.add(product)
+                                        Log.d("found query", searchList.toString())
+                                        recyclerViewSearch.adapter = searchAdapter
+                                        searchAdapter.setOnItemClickListener(object : ProductAdapter.onItemClickListener {
+                                            override fun onItemClick(position: Int) {
+                                                Log.d("product", product.toString())
+                                                val intent = Intent(context, Detail::class.java)
+                                                intent.putExtra("name", searchList[position].product_name)
+                                                intent.putExtra("price", searchList[position].product_price)
+                                                intent.putExtra("image", searchList[position].product_img)
+                                                intent.putExtra("qty", searchList[position].product_qty)
+                                                intent.putExtra("uid", searchList[position].product_uid)
+                                                startActivity(intent)
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }

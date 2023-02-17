@@ -1,12 +1,16 @@
 package com.example.agriculture
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.agriculture.authentication.Authentication
 import com.example.agriculture.model.User
@@ -23,6 +27,7 @@ import com.google.firebase.database.ValueEventListener
 class Dashboard : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var navBar: BottomNavigationView
+    private val REQUEST_LOCATION_PERMISSION = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -35,6 +40,12 @@ class Dashboard : AppCompatActivity() {
         val profile = Profile()
 
         makeCurrentScreen(home)
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
+        }
 
         val database = FirebaseDatabase.getInstance().reference.child("users").child(mAuth.currentUser!!.uid)
         database.addValueEventListener(object: ValueEventListener{
@@ -95,11 +106,28 @@ class Dashboard : AppCompatActivity() {
         return super.onOptionsItemSelected(item);
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         val a = Intent(Intent.ACTION_MAIN)
         a.addCategory(Intent.CATEGORY_HOME)
         a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(a)
+
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, get the location
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+            } else {
+                // Permission denied, handle the error
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

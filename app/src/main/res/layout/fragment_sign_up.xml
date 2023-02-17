@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".authentication.SignUp">
 
@@ -23,16 +23,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/name"
                 android:layout_width="300dp"
                 android:layout_height="55dp"
-                android:layout_marginStart="49dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="60dp"
+
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/customedittext"
                 android:drawableStart="@drawable/usernamepng"
@@ -44,65 +42,107 @@
                 android:maxEms="10"
                 android:paddingStart="10dp"
                 android:textColor="#4169e1"
-                android:textColorHint="#4169e1"
-                app:layout_constraintBottom_toTopOf="@+id/phonenumber"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColorHint="#4169e1" />
 
-            <EditText
-                android:id="@+id/phone"
-                android:layout_width="300dp"
-                android:layout_height="55dp"
-                android:layout_marginStart="49dp"
-                android:layout_marginEnd="60dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/customedittext"
-                android:drawableStart="@drawable/usernamepng"
-                android:drawablePadding="10dp"
-                android:elevation="3dp"
-                android:ems="10"
-                android:hint="Phone Number"
-                android:inputType="textPersonName"
-                android:maxEms="10"
-                android:paddingStart="10dp"
-                android:textColor="#4169e1"
-                android:textColorHint="#4169e1"
-                app:layout_constraintBottom_toTopOf="@+id/email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="300dp"
-                android:layout_height="55dp"
-                android:layout_marginStart="49dp"
-                android:layout_marginEnd="60dp"
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/customedittext"
+                    android:drawableStart="@drawable/usernamepng"
+                    android:drawablePadding="10dp"
+                    android:elevation="3dp"
+                    android:ems="10"
+                    android:hint="Phone Number"
+                    android:inputType="textPersonName"
+                    android:maxEms="10"
+                    android:paddingStart="10dp"
+                    android:textColor="#4169e1"
+                    android:textColorHint="#4169e1"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/phone_otp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="20dp"
+                    android:visibility="gone"
+                    android:background="@drawable/customedittext"
+                    android:drawableStart="@drawable/usernamepng"
+                    android:drawablePadding="10dp"
+                    android:elevation="3dp"
+                    android:ems="10"
+                    android:hint="Enter Otp"
+                    android:inputType="textPersonName"
+                    android:maxEms="10"
+                    android:paddingStart="10dp"
+                    android:textColor="#4169e1"
+                    android:textColorHint="#4169e1" />
+
+                <Button
+                    android:id="@+id/verify_num"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/custombutton"
+                    android:backgroundTint="@color/teal_700"
+                    android:text="Send Otp"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/customedittext"
-                android:drawableStart="@drawable/usernamepng"
-                android:drawablePadding="10dp"
-                android:elevation="3dp"
-                android:ems="10"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                android:hint="Email"
-                android:inputType="textPersonName"
-                android:maxEms="10"
-                android:paddingStart="10dp"
-                android:textColor="#4169e1"
-                android:textColorHint="#4169e1"
-                app:layout_constraintBottom_toTopOf="@+id/password"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phonenumber" />
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="300dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/customedittext"
+                    android:drawableStart="@drawable/usernamepng"
+                    android:drawablePadding="10dp"
+                    android:elevation="3dp"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:inputType="textPersonName"
+                    android:maxEms="10"
+                    android:paddingStart="10dp"
+                    android:textColor="#4169e1"
+                    android:textColorHint="#4169e1"
+                    app:layout_constraintBottom_toTopOf="@+id/password"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phonenumber" />
+
+                <Button
+                    android:id="@+id/verify_email"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:visibility="gone"
+                    android:background="@drawable/custombutton"
+                    android:backgroundTint="@color/teal_700"
+                    android:text="Verify Email"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="300dp"
                 android:layout_height="55dp"
-                android:layout_marginStart="49dp"
-                android:layout_marginEnd="60dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/customedittext"
                 android:drawableStart="@drawable/passwordpng"
@@ -114,18 +154,12 @@
                 android:maxEms="10"
                 android:paddingStart="10dp"
                 android:textColor="#4169e1"
-                android:textColorHint="#4169e1"
-                app:layout_constraintBottom_toTopOf="@+id/retypepassword"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email" />
+                android:textColorHint="#4169e1" />
 
             <EditText
                 android:id="@+id/retypepassword"
                 android:layout_width="300dp"
                 android:layout_height="55dp"
-                android:layout_marginStart="49dp"
-                android:layout_marginEnd="60dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/customedittext"
                 android:drawableStart="@drawable/passwordpng"
@@ -137,47 +171,29 @@
                 android:maxEms="10"
                 android:paddingStart="10dp"
                 android:textColor="#4169e1"
-                android:textColorHint="#4169e1"
-                app:layout_constraintBottom_toTopOf="@+id/FarmerSwitch"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password" />
+                android:textColorHint="#4169e1" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/isFarmer"
                 android:layout_width="190dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="103dp"
-                android:layout_marginEnd="116dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/custombutton"
                 android:paddingStart="15dp"
                 android:text="Farmer Account"
-                android:textColor="#FFF"
-                app:layout_constraintBottom_toTopOf="@+id/btn_signup"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/retypepassword" />
+                android:textColor="#FFF" />
 
             <Button
                 android:id="@+id/signUp"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="154dp"
                 android:layout_marginTop="2dp"
-                android:layout_marginEnd="168dp"
                 android:background="@drawable/custombutton"
                 android:text="Signup"
                 android:textAllCaps="false"
-                android:textColor="#FFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/FarmerSwitch" />
+                android:textColor="#FFF" />
 
         </LinearLayout>
-
 
     </androidx.cardview.widget.CardView>
 

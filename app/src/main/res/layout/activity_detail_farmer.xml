@@ -60,15 +60,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Name: "
+                        android:textStyle="bold"
                         android:layout_marginStart="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
-                        android:textSize="22sp"/>
+                        android:textSize="25sp"/>
                     <TextView
                         android:id="@+id/product_name_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:layout_marginStart="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
@@ -82,6 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Desc: "
+                        android:visibility="gone"
                         android:layout_marginStart="10dp"
                         android:layout_marginBottom="10dp"
                         android:textSize="22sp"/>
@@ -90,6 +93,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="22sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price: "
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="25sp"/>
+                    <TextView
+                        android:id="@+id/product_price_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textStyle="bold"
                         android:layout_marginStart="10dp"
                         android:layout_marginBottom="10dp"
                         android:textSize="22sp"/>
@@ -104,12 +127,14 @@
                         android:layout_height="wrap_content"
                         android:text="Quantity: "
                         android:layout_gravity="center"
-                        android:textSize="22sp"/>
+                        android:textStyle="bold"
+                        android:textSize="25sp"/>
                     <TextView
                         android:id="@+id/qty_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:layout_gravity="center"
                         android:textSize="22sp"/>
                     <EditText
@@ -121,7 +146,6 @@
                         android:inputType="numberDecimal"
                         android:layout_gravity="center"
                         android:textSize="22sp"
-                        android:layout_marginEnd="10dp"
                         android:background="@drawable/customedittext"
                         android:padding="7dp"/>
                     <Button
@@ -129,6 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:text="Edit"
+                        android:layout_marginStart="10dp"
                         android:textAllCaps="false"
                         android:textSize="18sp"
                         android:background="@drawable/custombutton"
@@ -143,46 +168,72 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 android:paddingBottom="5dp">
+
                 <TextView
                     android:id="@+id/t1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="Uploader Details"
-                    android:layout_margin="10dp"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
-                <TextView
-                    android:id="@+id/farmer_name_detail"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/farmer_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Farmer Name"
+                    android:weightSum="2"
                     android:layout_below="@id/t1"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="22sp"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/farmer_name_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="25sp"/>
+                    <TextView
+                        android:id="@+id/farmer_loc_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Address"
+                        android:gravity="end"
+                        android:paddingEnd="10dp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="20sp"/>
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/uploader_credentials"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/farmer_name_detail"
+                    android:layout_below="@id/farmer_detail"
                     android:visibility="visible"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/farmer_email_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Farmer Email"
+                        android:text="Email"
+                        android:textStyle="bold"
                         android:layout_marginBottom="10dp"
                         android:layout_marginStart="10dp"
-                        android:textSize="22sp"/>
+                        android:textSize="25sp"/>
                     <TextView
                         android:id="@+id/farmer_phone_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Farmer Phone"
+                        android:text="Phone"
+                        android:textStyle="bold"
                         android:layout_marginBottom="10dp"
                         android:layout_marginStart="10dp"
-                        android:textSize="22sp"/>
+                        android:textSize="25sp"/>
                 </LinearLayout>
                 <Button
                     android:id="@+id/request_details"
@@ -206,6 +257,21 @@
                     android:visibility="gone"
                     android:background="@drawable/custombutton"
                     android:text="Dial Farmer"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textAllCaps="false"
+                    android:padding="17dp"/>
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:background="@drawable/custombutton"
+                    android:text="Delete Product"
+                    android:backgroundTint="#ED1809"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/white"

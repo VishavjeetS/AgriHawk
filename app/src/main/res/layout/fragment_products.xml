@@ -43,7 +43,7 @@
                     android:id="@+id/total_products"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="25"
+                    android:text="0"
                     android:gravity="center_horizontal"
                     android:textColor="#4169e1"
                     android:layout_weight="1"
@@ -99,22 +99,56 @@
                 android:textColor="#4169e1"
                 android:textColorHint="#4169e1"/>
 
-            <EditText
-                android:id="@+id/product_desc"
-                android:layout_width="300dp"
-                android:layout_height="105dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/customedittext"
-                android:elevation="3dp"
-                android:ems="10"
-                android:hint="Product Description"
-                android:gravity="start"
-                android:paddingTop="5dp"
-                android:inputType="textPersonName"
-                android:maxEms="10"
-                android:paddingStart="10dp"
-                android:textColor="#4169e1"
-                android:textColorHint="#4169e1"/>
+                android:weightSum="3">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rs "
+                    android:layout_marginEnd="10dp"
+                    android:textSize="22sp"/>
+                <EditText
+                    android:id="@+id/product_desc"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/customedittext"
+                    android:elevation="3dp"
+                    android:ems="10"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxEms="10"
+                    android:visibility="gone"
+                    android:hint="100"
+                    android:textColor="#4169e1"
+                    android:textColorHint="#4169e1"/>
+                <EditText
+                    android:id="@+id/product_price"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/customedittext"
+                    android:elevation="3dp"
+                    android:ems="10"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxEms="10"
+                    android:hint="100"
+                    android:textColor="#4169e1"
+                    android:textColorHint="#4169e1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/Kg"
+                    android:layout_marginStart="10dp"
+                    android:textSize="22sp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -207,6 +241,7 @@
                         android:text="Camera/Gallery"
                         android:textSize="16sp"
                         android:elevation="5dp"
+                        android:padding="8dp"
                         android:textColor="@color/white"
                         android:background="@drawable/custombutton"
                         android:textAllCaps="false"/>
